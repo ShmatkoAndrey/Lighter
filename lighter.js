@@ -1,6 +1,6 @@
 var colors = ['red', 'green'];
 //var times = [10, 15];
-var times = [2, 4];
+var times = [12, 15];
 
 function getNext(type) {
     var iNext = 0;
@@ -45,7 +45,6 @@ function myTimer(type, s){
                 clearInterval(dont_blink);
             }, 500)
         }
-
         if(s <= 0) {
             clearInterval(timer);
             var next = getNext(type);
