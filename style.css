@@ -1,0 +1,24 @@
+.circle {
+  width:20px;
+  margin:20px;
+  padding:20px;
+  border:solid 1px #0a325f;
+  font-size:20px;
+  border-radius: 50px;
+}
+.green {
+  background-color:#00ff00;
+  box-shadow: 0 0 25px #32cd32;
+}
+.yellow {
+  background-color:#ffff00;
+  box-shadow: 0 0 25px #ffd700;
+}
+.red {
+  background-color:#ff0000;
+  box-shadow: 0 0 25px #ff1493;
+}
+.grey {
+  background-color: #535353;
+  //box-shadow: 0 0 25px #ff1493;
+}
