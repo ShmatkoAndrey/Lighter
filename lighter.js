@@ -55,6 +55,5 @@ function lighterStart(timer_show, mod, colors, times, blinks) {
 }
 
 $(document).ready(function(){
-    //lighterStart($('#my_timer'), '', ['red green'], [1], [{type: 'green', i: 1, s: 3}]);
-    lighterStart($('#my_timer'), '', ['red', 'yellow red', 'green'], [2, 2, 4], [{type: 'green', i: 3, s: 3}]);
+    lighterStart($('#my_timer'), '', ['red', 'yellow red', 'green'], [10, 2, 15], [{type: 'green', i: 3, s: 3}, {type: 'red', i: 2, s: 2}]);
 });
