@@ -1,11 +1,11 @@
-var colors = ['red', 'green'];
-//var times = [10, 15];
-var times = [12, 15];
+var colors = ['red', 'yellow red', 'green'];
+var times = [2, 2, 4];
 
 function getNext(type) {
+    type = type.split(' ')[0];
     var iNext = 0;
     colors.forEach(function(e, i){
-        if(e == type) {
+        if(e.split(' ')[0] == type) {
            iNext = i + 1;
         }
     });
@@ -14,9 +14,11 @@ function getNext(type) {
 }
 
 function getTime(type) {
+    type = type.split(' ')[0];
     var iNext = 0;
+    type = type.split(' ')[0];
     colors.forEach(function(e, i) {
-        if(e == type) {
+        if(e.split(' ')[0] == type) {
             iNext = i;
         }
     });
@@ -25,7 +27,9 @@ function getTime(type) {
 
 function whatHappening(type, clear, blink ) {
     if(clear) $('#lighter div').removeClass('green yellow red').addClass('grey');
-    if(blink) $('#' + type).removeClass('grey').addClass(type);
+    type.split(' ').forEach(function(e, i) {
+        if(blink) $('#' + e).removeClass('grey').addClass(e);
+    });
 }
 
 function myTimer(type, s){
@@ -33,10 +37,6 @@ function myTimer(type, s){
     var dont_blink;
 
     var timer = setInterval(function() {
-        if (type == 'red' && s <= 2) {
-            not_yellow = false;
-            whatHappening('yellow', not_yellow, true)
-        }
         if (type == 'green' && s <= 3) {
             var blink = false;
             dont_blink = setInterval(function() {
@@ -45,12 +45,12 @@ function myTimer(type, s){
                 clearInterval(dont_blink);
             }, 500)
         }
-        if(s <= 0) {
+        if(s <= 1) {
             clearInterval(timer);
             var next = getNext(type);
             myTimer(next, getTime(next));
         }
-        if (s >= 0) {
+        if (s >= 1) {
             whatHappening(type, not_yellow, true);
             $('#my_timer').html(s);
             s--;
