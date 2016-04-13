@@ -1,25 +1,16 @@
 function lighterStart(timer_show, mod, colors, times, blinks) {
 
-    function findIColor(type) {
-        var iNext = 0;
-        colors.forEach(function (e, i) {
-            if (e == type) {
-                iNext = i;
-            }
-        });
-        return iNext;
-    }
+    var iNext = 0;
 
-    function getNext(type) {
-        var iNext = findIColor(type) + 1;
+    function getNext() {
+        iNext += 1;
         if (iNext > colors.length - 1) iNext = 0;
         return colors[iNext];
     }
 
-    function getTime(type) {
-        return times[findIColor(type)];
+    function getTime() {
+        return times[iNext];
     }
-
 
     function whatHappening(type) {
         $('#lighter' + mod + ' div').removeClass(colors.join(' ')).addClass('grey');
@@ -41,16 +32,14 @@ function lighterStart(timer_show, mod, colors, times, blinks) {
     function setTimer(type, s) {
         var timer = setInterval(function () {
             blinks.forEach(function (e) {
-                type.split(' ').forEach(function(t){
-                    if (t == e.type && s <= e.s) {
-                        blink_me(t);
-                    }
-                })
+                if ((e.i - 1) == iNext && s <= e.s) {
+                    blink_me(e.type);
+                }
             });
             if (s <= 1) {
                 clearInterval(timer);
-                var next = getNext(type);
-                setTimer(next, getTime(next));
+                var next = getNext();
+                setTimer(next, getTime(iNext));
             }
             if (s >= 1) {
                 whatHappening(type);
@@ -66,6 +55,6 @@ function lighterStart(timer_show, mod, colors, times, blinks) {
 }
 
 $(document).ready(function(){
-    //lighterStart($('#my_timer'), '', ['red green'], [1], [{type: 'green', s: 3}]);
-    lighterStart($('#my_timer'), '', ['red', 'yellow red', 'green'], [10, 2, 15], [{type: 'green', s: 3}]);
+    //lighterStart($('#my_timer'), '', ['red green'], [1], [{type: 'green', i: 1, s: 3}]);
+    lighterStart($('#my_timer'), '', ['red', 'yellow red', 'green'], [2, 2, 4], [{type: 'green', i: 3, s: 3}]);
 });
