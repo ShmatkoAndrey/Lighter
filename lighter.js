@@ -1,5 +1,6 @@
 var colors = ['red', 'yellow red', 'green'];
-var times = [2, 2, 4];
+var times = [4, 2, 4];
+var blinks = [{type: 'green', s: 3}];
 
 function getNext(type) {
     type = type.split(' ')[0];
@@ -25,33 +26,39 @@ function getTime(type) {
     return times[iNext];
 }
 
-function whatHappening(type, clear, blink ) {
-    if(clear) $('#lighter div').removeClass('green yellow red').addClass('grey');
-    type.split(' ').forEach(function(e, i) {
+function whatHappening(type, blink ) {
+    $('#lighter div').removeClass('green yellow red').addClass('grey');
+    type.split(' ').forEach(function(e) {
         if(blink) $('#' + e).removeClass('grey').addClass(e);
     });
 }
 
-function myTimer(type, s){
-    var not_yellow = true;
+function blink_me(type) {
     var dont_blink;
+    var blink = false;
+    dont_blink = setInterval(function() {
+        whatHappening(type, blink);
+        blink = !blink;
+        clearInterval(dont_blink);
+    }, 500)
+}
+
+function setTimer(type, s){
 
     var timer = setInterval(function() {
-        if (type == 'green' && s <= 3) {
-            var blink = false;
-            dont_blink = setInterval(function() {
-                whatHappening(type, not_yellow, blink);
-                blink = !blink;
-                clearInterval(dont_blink);
-            }, 500)
-        }
+        blinks.forEach(function(e){
+            if (type == e.type && s <= e.s) {
+                blink_me(type);
+            }
+        });
+
         if(s <= 1) {
             clearInterval(timer);
             var next = getNext(type);
-            myTimer(next, getTime(next));
+            setTimer(next, getTime(next));
         }
         if (s >= 1) {
-            whatHappening(type, not_yellow, true);
+            whatHappening(type, true);
             $('#my_timer').html(s);
             s--;
         }
@@ -60,6 +67,6 @@ function myTimer(type, s){
 
 $(document).ready(function(){
     $('#my_timer').html(getTime('red'));
-    whatHappening('red', true, true);
-    myTimer('red', getTime('red'));
+    whatHappening('red', true);
+    setTimer('red', getTime('red'));
 });
